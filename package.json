@@ -1,0 +1,33 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "A to-do list app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skothar3/todo-list.git"
+  },
+  "author": "skothar3 <sid.kothari7@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skothar3/todo-list/issues"
+  },
+  "homepage": "https://github.com/skothar3/todo-list#readme",
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.2",
+    "prettier": "3.3.3",
+    "style-loader": "^4.0.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
