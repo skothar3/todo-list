@@ -1,0 +1,52 @@
+:root {
+  --sidebar-background-color: #7c3aed;
+}
+
+section.sidebar {
+  position: relative;
+  background-color: var(--sidebar-background-color);
+  padding: 2vh 2vw;
+  font-size: clamp(1.0rem, 1.4vw, 1.7rem);
+  border-right: 2px solid var(--section-border-color);
+}
+
+section.sidebar div.menu-container {
+  display: flex;
+  flex-direction: column;
+}
+
+section.sidebar p {
+  transition-duration: 0.4s;
+}
+
+section.sidebar p.project {
+  padding-left: 10%;
+}
+
+section.sidebar p:hover {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+section.sidebar button#add-item {
+  position: absolute;
+  bottom: 5%;
+  left: 12%;
+  cursor: pointer;
+  font-size: clamp(2.2rem, 3.5vw, 3.7rem);
+  background-color: var(--font-color);
+  border: none;
+  border-radius: 100%;
+  box-shadow: 5px 5px 8px #2e1065;
+  padding: max(8px, 0.9vh) max(20px, 0.9vw);
+  transition-duration: 0.3s;
+}
+
+section.sidebar button#add-item:hover {
+  background-color: #d4d4d4;
+}
+
+section.sidebar button#add-item:active {
+  background-color: #737373;
+}
+

@@ -1,0 +1,24 @@
+/* FOOTER  */
+footer {
+  grid-row: 3 / 4;
+  /* background-color: var(--footer-color); */
+  display: flex;
+  gap: 1vw;
+  align-items: center;
+  justify-content: center;
+}
+
+footer p {
+  font-size: clamp(0.8rem, 1.3vw, 2rem);
+}
+
+footer img {
+  width: clamp(1rem, 1.3vw, 4rem);
+  transition: transform 300ms;
+}
+
+footer img:hover {
+  transform: rotate(360deg) scale(1.2, 1.2);
+}
+
+

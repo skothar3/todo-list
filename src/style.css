@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Balthazar&family=Josefin+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500&display=swap');
+
+* {
+  box-sizing: border-box;
+  /* border: 0.5px solid #ddd6fe; */
+}
+
+:root {
+  --page-height: max(100vh, 700px);
+  --background-color: lightgrey;
+  --foreground-color: #a78bfa;
+  --font-color: blanchedalmond;
+  --section-border-color: black;
+
+  padding: 0;
+  background-color: var(--background-color);
+}
+
+body {
+  font-family: "Josefin Sans", sans-serif;
+  display: grid;
+  grid-template-rows: 2fr 10fr 1fr;
+  grid-template-columns: 1fr;
+  background-color: var(--foreground-color);
+  color: var(--font-color);
+  border-style: round;
+  width: 100vw;
+  height: var(--page-height);
+  margin: 0;
+}
+
+header {
+  grid-row: 1 / 2;
+  border-bottom: 2px solid var(--section-border-color);
+}
+
+header h1 {
+  margin-top: 2.5rem;
+  margin-left: 2vw;
+}
+
+main {
+  grid-row: 2 / 3;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 15vw 1fr;
+  height: 100%;
+  border-bottom: 2px solid var(--section-border-color);
+}
+
+main section.sidebar {
+  grid-column: 1 / 2;
+}
+
+main section.content {
+  grid-column: 2 / 3;
+}
+
+
