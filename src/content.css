@@ -1,0 +1,79 @@
+div#list-container {
+  padding: 5vh 5%;
+  height: 100%;
+}
+
+/* LIST ITEM CONTAINER {{{ */
+div.item-container {
+  padding: 1% 0.5%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1vh;
+  border: 5px solid var(--section-border-color);
+}
+
+div.item-container.high {
+  border-left: 5px solid red;
+  border-right: 5px solid red;
+}
+
+div.item-container.medium {
+  border-left: 5px solid orange;
+  border-right: 5px solid orange;
+}
+
+div.item-container.low {
+  border-left: 5px solid green;
+  border-right: 5px solid green;
+}
+
+div.item-container div span {
+  font-size: clamp(1.1rem, 2.0vw, 2rem);
+}
+
+div.item-container div svg {
+  height: clamp(1rem, 2.0vw, 2rem);
+}
+
+div.item-container svg:hover {
+  cursor: pointer;
+  color: var(--icon-hover-color);
+  transition-duration: 0.3s;
+}
+/* }}} */
+
+/* LEFT SIDE LIST CONTAINER {{{ */
+div.left-side-list-container {
+  width: max(18rem, 50%);
+  display: inline-flex;
+  align-items: center;
+}
+
+div.left-side-list-container span.item-title {
+  width: max(5rem, 80%);
+}
+
+div.left-side-list-container div.checkbox {
+  border: 1px solid var(--font-color);
+  margin: 0 5%;
+}
+
+div.left-side-list-container svg.fa-check:active {
+  visibility: hidden;
+}
+
+/* }}} */
+
+/* RIGHT SIDE LIST CONTAINER {{{ */
+div.right-side-list-container {
+  width: max(8rem, 20%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.right-side-list-container span.item-date {
+  width: max(4rem, 60%);
+}
+
+      /* }}} */

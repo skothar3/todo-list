@@ -1,8 +1,4 @@
-import insertFooter from "./footer.js";
-import insertSidebar from "./sidebar.js";
+import mainController from "./content.js";
 import "./style.css";
 
-const footerEl = document.querySelector("footer");
-
-insertFooter(footerEl);
-insertSidebar();
+mainController().init();
