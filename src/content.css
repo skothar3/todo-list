@@ -32,13 +32,13 @@ div.item-container div span {
 }
 
 div.item-container div svg {
-  height: clamp(1rem, 2.0vw, 2rem);
+  height: clamp(1rem, 2.3vw, 2.5rem);
 }
 
-div.item-container svg:hover {
+div.item-container i:hover {
   cursor: pointer;
   color: var(--icon-hover-color);
-  transition-duration: 0.3s;
+  /* transition-duration: 0.3s; */
 }
 /* }}} */
 
@@ -58,8 +58,16 @@ div.left-side-list-container div.checkbox {
   margin: 0 5%;
 }
 
-div.left-side-list-container svg.fa-check:active {
+div.left-side-list-container div.checkbox:hover {
+  cursor: pointer;
+}
+
+div.item-container:not(.complete) .checkmark {
   visibility: hidden;
+}
+
+div.item-container.complete span.item-title {
+  text-decoration: line-through;
 }
 
 /* }}} */

@@ -2,33 +2,53 @@ import insertFooter from "./footer.js";
 import { format, isSameDay, isSameWeek } from "date-fns";
 import "./content.css";
 import "./sidebar.css";
-import { library, dom } from "@fortawesome/fontawesome-svg-core";
+import { library, dom, config } from "@fortawesome/fontawesome-svg-core";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons/faPenToSquare";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons/faTrashCan";
+// Update config so that svg elements nest within i elements instead of replacing them (JS and CSS can still access i elements) 
+config.autoReplaceSvg = "nest";
 
 function displayController() {
   // {{{
-
   library.add(faPenToSquare);
   library.add(faTrashCan);
   library.add(faCheck);
   dom.watch();
 
   const sidebarItems = ["All ToDos", "Due Today", "Due This Week"];
+  const listSortStyles = ["Date", "Priority", "To Complete"];
 
   const sidebarSection = document.querySelector("section.sidebar");
-  const listContainer = document.querySelector("div#list-container");
+  const contentSection = document.querySelector("section.content");
+  const listContainer = contentSection.querySelector("div#list-container");
   const footerEl = document.querySelector("footer");
 
   // PRIVATE METHODS {{{
+  const initSortSelect = () => {
+    const selectLabel = document.createElement("label");
+    selectLabel.htmlFor = "sort-select";
+    selectLabel.textContent = "Sort by: ";
+    const selectEl = document.createElement("select");
+    selectEl.id = "sort-select";
 
+    listSortStyles.forEach(sortStyle => {
+      const option = document.createElement("option");
+      option.value = sortStyle;
+      option.textContent = sortStyle;
+      selectEl.appendChild(option);
+    });
+
+    contentSection.prepend(selectLabel, selectEl);
+
+  }
   const createListItemDOM = (listItem) => {
     // {{{
 
     const itemContainer = document.createElement("div");
     itemContainer.classList.add("item-container");
     itemContainer.classList.add(`${listItem.priority}`);
+    itemContainer.dataset.id = `${listItem.getID()}`;
 
     const leftSideListContainer = document.createElement("div");
     leftSideListContainer.classList.add("left-side-list-container");
@@ -39,8 +59,11 @@ function displayController() {
     const checkbox = document.createElement("div");
     checkbox.classList.add("checkbox");
 
-    const check = document.createElement("i");
-    check.classList.add("fas", "fa-check", `${listItem.isComplete}`);
+    const checkmark = document.createElement("i");
+    checkmark.classList.add("fas", "fa-check", "checkmark");
+    if (listItem.getCompletion()) {
+      itemContainer.classList.add("complete");
+    }
 
     const itemTitle = document.createElement("span");
     itemTitle.classList.add("item-title");
@@ -51,12 +74,12 @@ function displayController() {
     itemDate.textContent = format(listItem.date, "MMM dd");
 
     const itemEdit = document.createElement("i");
-    itemEdit.classList.add("far", "fa-pen-to-square");
+    itemEdit.classList.add("far", "fa-pen-to-square", "edit");
 
     const itemTrash = document.createElement("i");
-    itemTrash.classList.add("far", "fa-trash-can");
+    itemTrash.classList.add("far", "fa-trash-can", "trash");
 
-    checkbox.append(check);
+    checkbox.append(checkmark);
     leftSideListContainer.append(checkbox, itemTitle);
     rightSideListContainer.append(itemDate, itemEdit, itemTrash);
     itemContainer.append(leftSideListContainer, rightSideListContainer);
@@ -66,7 +89,6 @@ function displayController() {
 
   const updateSidebar = (todoListTags) => {
     // {{{
-
     const menuContainerDiv = document.createElement("div");
     menuContainerDiv.classList.add("menu-container");
 
@@ -103,15 +125,16 @@ function displayController() {
     menuContainerDiv.append(projectsContainerDiv, addItemBtn);
     sidebarSection.replaceChildren(menuContainerDiv);
   }; // }}}
+  // }}}
 
+  // PUBLIC METHODS {{{
   const init = (listItemsArr, tags) => {
+    initSortSelect();
     updateSidebar(tags);
     updateList(listItemsArr);
     insertFooter(footerEl);
   };
-  // }}}
 
-  // PUBLIC METHODS {{{
   const getListNodes = () => {
     return listContainer.querySelectorAll("div.item-container");
   };
@@ -119,6 +142,10 @@ function displayController() {
   const getSidebarNodes = () => {
     return sidebarSection.querySelectorAll("p.subsection, p.project");
   };
+
+  const getSortSelectNode = () => {
+    return contentSection.querySelector("select#sort-select");
+  }
 
   const updateList = (listItemsArr) => {
     const newList = [];
@@ -135,23 +162,32 @@ function displayController() {
     init,
     getListNodes,
     getSidebarNodes,
+    getSortSelectNode,
     updateList,
   };
 } // }}}
 
 function listController() {
   // {{{
-  let listID = 0;
+  let itemID = 0;
   let listFilter = "All ToDos";
   let currentTag = "";
-  let sortStyle = "Priority";
+  let sortStyle = "Date";
 
-  function listItem(title, date, priority, notes, tags, isComplete) { // {{{
+  function listItem(title, date, priority, notes, tags, isComplete) {
+    // {{{ 
     priority = priority.toLowerCase();
-    const ID = listID;
-    listID++;
+    const ID = itemID;
+    let complete = isComplete;
 
     const getID = () => ID;
+
+    const getCompletion = () => complete;
+    const flipCompletion = () => {
+      complete = complete ? false : true;
+    };
+
+    itemID++;
 
     return {
       title,
@@ -159,13 +195,38 @@ function listController() {
       priority,
       notes,
       tags,
-      isComplete,
       getID,
+      getCompletion,
+      flipCompletion,
     };
   } // }}}
 
   // LIST ITEM ARRAY {{{
   const listItemsArr = [
+    listItem(
+      "Get skates from crawlspace",
+      new Date(2024, 11, 29),
+      "Low",
+      "Need to get them sharpened before taking them to Toronto",
+      ["Home"],
+      false,
+    ),
+    listItem(
+      "Call Charumasi",
+      new Date(2024, 11, 29),
+      "Low",
+      "Check in with your dear aunt to see how her trip to Peru was",
+      ["Home", "Phone Calls"],
+      false,
+    ),
+    listItem(
+      "Continue working towards CKA exam",
+      new Date(2025, 0, 30),
+      "High",
+      "Keep learning Kubernetes and Linux to succeed as a SE",
+      ["Job Hunt"],
+      true,
+    ),
     listItem(
       "Contact Shopify Support",
       new Date(2024, 9, 31),
@@ -203,7 +264,8 @@ function listController() {
   // }}}
 
   // PRIVATE METHODS {{{
-const getCurrentList = () => {// {{{
+  const getCurrentList = () => {
+    // {{{
     let currentList;
     switch (listFilter) {
       case "All ToDos":
@@ -232,19 +294,27 @@ const getCurrentList = () => {// {{{
         break;
       case "Priority":
         currentList.sort((a, b) => {
-          if (a.priority == "high" || b.priority == "low") {
+	  if (a.priority == b.priority) {
+	    return a.date - b.date;
+	  } else if (a.priority == "high" || b.priority == "low") {
             return -1;
           } else if ((b.priority = "high" || a.priority == "low")) {
             return 1;
           } else return 0;
         });
         break;
-      case "isComplete":
-        currentList.sort((a, b) => a.isComplete - b.isComplete);
+      case "To Complete":
+	currentList.sort((a, b) => {
+	  if (a.getCompletion() == b.getCompletion()) {
+	    return a.date - b.date;
+	  } else {
+	    return a.getCompletion() - b.getCompletion();
+	  }
+	});
         break;
     }
     return currentList;
-  };// }}}
+  }; // }}}
   // }}}
 
   // PUBLIC METHODS {{{
@@ -260,30 +330,23 @@ const getCurrentList = () => {// {{{
     return tagsList.sort();
   };
 
-  const getList = (filterType, tag = "", sortType = "Priority") => {
-    listFilter = filterType;
-    currentTag = tag;
-    sortStyle = sortType;
+  const getList = (filterType = "", tag = "", sortType = "") => {
+    if (filterType) { listFilter = filterType };
+    if (tag) { currentTag = tag };
+    if (sortType) { sortStyle = sortType };
 
     return getCurrentList();
   };
 
-  const editListItem = (
-    listID,
-    title,
-    date,
-    priority,
-    notes,
-    tags,
-    isComplete,
-  ) => {
+  const editListItem = (itemID, updateObj) => {
     const itemIndex = listItemsArr.findIndex((item) => item.getID() == itemID);
-    listItemsArr[itemIndex].title = title;
-    listItemsArr[itemIndex].date = date;
-    listItemsArr[itemIndex].priority = priority.toLowerCase();
-    iistItemsArr[itemIndex].notes = notes;
-    listItemsArr[itemIndex].tags = tags;
-    listItemsArr[itemIndex].isComplete = isComplete;
+    Object.keys(updateObj).forEach(key => {
+      if (key != "flipCompletion"){
+	listItemsArr[itemIndex][key] = updateObj[key];
+      } else {
+	listItemsArr[itemIndex].flipCompletion();
+      }
+    })
 
     return getCurrentList();
   };
@@ -318,6 +381,56 @@ function mainController() {
   const displayControl = displayController();
   const listControl = listController();
 
+// PRIVATE METHODS {{{
+// LISTENERS {{{
+  const addSidebarListeners = (sidebarNodes) => {
+    sidebarNodes.forEach((node) => {
+      if (node.classList.contains("subsection")) {
+	node.addEventListener("click", () => {
+	  displayControl.updateList(
+	    listControl.getList(node.dataset.subsection),
+	  );
+	  const listNodes = displayControl.getListNodes();
+	  addListItemListeners(listNodes);
+	});
+      } else if (node.classList.contains("project")) {
+	node.addEventListener("click", () => {
+	  displayControl.updateList(
+	    listControl.getList("Project", node.dataset.project),
+	  );
+	  const listNodes = displayControl.getListNodes();
+	  addListItemListeners(listNodes);
+	});
+      }
+    });
+  }
+
+  const addListItemListeners = (listNodes) => {
+    listNodes.forEach((node) => {
+      const checkbox = node.querySelector("div.checkbox");
+      const checkmark = node.querySelector("i.checkmark");
+      const itemEdit = node.querySelector("i.edit");
+      const itemTrash = node.querySelector("i.trash");
+
+      checkbox.addEventListener("click", () => {
+        node.classList.toggle("complete");
+	displayControl.updateList(
+	  listControl.editListItem(node.dataset.id, {flipCompletion: true})
+	);
+	const listNodes = displayControl.getListNodes();
+	addListItemListeners(listNodes);
+      });
+      itemTrash.addEventListener("click", () => {
+	displayControl.updateList(
+	  listControl.removeListItem(node.dataset.id)
+	);
+	const listNodes = displayControl.getListNodes();
+	addListItemListeners(listNodes);
+      })
+    });
+  }
+// }}}
+
   const initDisplay = () => {
     displayControl.init(
       listControl.getList("All ToDos"),
@@ -325,28 +438,26 @@ function mainController() {
     );
     const sidebarNodes = displayControl.getSidebarNodes();
     const listNodes = displayControl.getListNodes();
+    const sortSelectNode = displayControl.getSortSelectNode();
 
-    sidebarNodes.forEach((node) => {
-      if (node.classList.contains("subsection")) {
-        node.addEventListener("click", () => {
-          displayControl.updateList(
-            listControl.getList(node.dataset.subsection),
-          );
-        });
-      } else if (node.classList.contains("project")) {
-        node.addEventListener("click", () => {
-          displayControl.updateList(
-            listControl.getList("Project", node.dataset.project),
-          );
-        });
-      }
+    addSidebarListeners(sidebarNodes);
+    addListItemListeners(listNodes);
+
+    sortSelectNode.addEventListener("change", () => {
+      displayControl.updateList(
+	listControl.getList("", "", sortSelectNode.value)
+      );
+      const listNodes = displayControl.getListNodes();
+      addListItemListeners(listNodes);
     });
+  }
+// }}}
 
-    listNodes.forEach((node) => {});
-  };
+// PUBLIC METHODS {{{
   const init = () => {
     initDisplay();
   };
+// }}}
 
   return {
     init,
