@@ -26,9 +26,13 @@ function displayController() {
 
   // PRIVATE METHODS {{{
   const initSortSelect = () => {
+    const selectContainer = document.createElement("div");
+    selectContainer.classList.add("select-container");
+    
     const selectLabel = document.createElement("label");
     selectLabel.htmlFor = "sort-select";
     selectLabel.textContent = "Sort by: ";
+
     const selectEl = document.createElement("select");
     selectEl.id = "sort-select";
 
@@ -39,7 +43,8 @@ function displayController() {
       selectEl.appendChild(option);
     });
 
-    contentSection.prepend(selectLabel, selectEl);
+    selectContainer.append(selectLabel, selectEl);
+    contentSection.prepend(selectContainer);
 
   }
   const createListItemDOM = (listItem) => {
@@ -102,7 +107,7 @@ function displayController() {
     addItemBtn.id = "add-item";
     addItemBtn.textContent = "+";
 
-    projectsContainerDiv.appendChild(projectsH2);
+    // projectsContainerDiv.appendChild(projectsH2);
 
     sidebarItems.forEach((item) => {
       const itemP = document.createElement("p");
@@ -122,7 +127,7 @@ function displayController() {
       projectsContainerDiv.appendChild(projectItemP);
     });
 
-    menuContainerDiv.append(projectsContainerDiv, addItemBtn);
+    menuContainerDiv.append(projectsH2, projectsContainerDiv, addItemBtn);
     sidebarSection.replaceChildren(menuContainerDiv);
   }; // }}}
   // }}}
@@ -204,11 +209,27 @@ function listController() {
   // LIST ITEM ARRAY {{{
   const listItemsArr = [
     listItem(
+      "Get groceries",
+      new Date(2024, 11, 31),
+      "Medium",
+      "List TBD",
+      ["Condo"],
+      false
+    ),
+    listItem(
+      "Finish Hawaii booking",
+      new Date(2024, 11, 31),
+      "Medium",
+      "Looking at Feb 2-12, 2025 w the D. Kotharis",
+      ["Leisure", "Travel"],
+      false
+    ),
+    listItem(
       "Get skates from crawlspace",
       new Date(2024, 11, 29),
       "Low",
       "Need to get them sharpened before taking them to Toronto",
-      ["Home"],
+      ["Home", "Leisure"],
       false,
     ),
     listItem(

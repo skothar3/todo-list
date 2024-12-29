@@ -1,6 +1,17 @@
+div.select-container {
+  text-align: right;
+  margin: 1% 2vw;
+  /* padding-top: 1%; */
+  height: 6%;
+  overflow: hidden;
+}
+
 div#list-container {
-  padding: 5vh 5%;
-  height: 100%;
+  /* border: 1px solid red; */
+  padding: 0vh 5%;
+  /* margin-bottom: 2%; */
+  height: 92%;
+  overflow-y: auto;
 }
 
 /* LIST ITEM CONTAINER {{{ */
@@ -8,7 +19,7 @@ div.item-container {
   padding: 1% 0.5%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
   border: 5px solid var(--section-border-color);
 }
 

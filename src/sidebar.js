@@ -42,8 +42,8 @@ addItemBtn.id = "add-item";
 addItemBtn.textContent = "+"
 // }}}
 
-projectsContainerDiv.append(projectsH2, houseRenoProjectP, exerciseProjectP, wishlistProjectP);
-menuContainerDiv.append(allP, dueTodayP, dueThisWeekP, projectsContainerDiv);
+projectsContainerDiv.append(houseRenoProjectP, exerciseProjectP, wishlistProjectP);
+menuContainerDiv.append(allP, dueTodayP, dueThisWeekP, projectsH2, projectsContainerDiv);
 
 function insertSidebar() {
   sidebarSection.append(menuContainerDiv, addItemBtn);
