@@ -315,13 +315,14 @@ function listController() {
         break;
       case "Priority":
         currentList.sort((a, b) => {
-	  if (a.priority == b.priority) {
-	    return a.date - b.date;
-	  } else if (a.priority == "high" || b.priority == "low") {
-            return -1;
-          } else if ((b.priority = "high" || a.priority == "low")) {
-            return 1;
-          } else return 0;
+	  if (a.priority == b.priority) { return a.date - b.date };
+	  const priorities = [];
+	  [a, b].forEach((item, index) => {
+	    if (item.priority == "high") {priorities[index] = 3}
+	    else if (item.priority == "medium") {priorities[index] = 2}
+	    else {priorities[index] = 1}
+	  });
+	  return priorities[1] - priorities[0];
         });
         break;
       case "To Complete":
