@@ -12,6 +12,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/template.html",
+      scriptLoading: "defer",
     }),
   ],
   module: {
