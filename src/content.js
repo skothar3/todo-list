@@ -168,6 +168,10 @@ function displayController() {
     sidebarSection.replaceChildren(menuContainerDiv);
   }; // }}}
 
+  const getListNodeByID = (id) => {
+    return listContainer.querySelector(`div.item-container[data-id="${id}"]`);
+  }
+
   const getListNodes = () => {
     return listContainer.querySelectorAll("div.item-container");
   };
@@ -205,6 +209,7 @@ function displayController() {
 
   return {
     init,
+    getListNodeByID,
     getListNodes,
     getSidebarNodes,
     getSortSelectNode,
@@ -413,6 +418,10 @@ function listController() {
   // }}}
 
   // PUBLIC METHODS {{{
+  const getLastItemID = () => {
+    return itemID - 1;
+  }
+
   const getTags = () => {
     const tagsList = [];
     listItemsArr.forEach((item) => {
@@ -468,6 +477,7 @@ function listController() {
   // }}}
 
   return {
+    getLastItemID,
     getTags,
     getList,
     editListItem,
@@ -580,7 +590,7 @@ function mainController() {
 	if (key == "tags") {
 	  itemObj[key] = value.split(", ");
 	} else if (key == "date") {
-	  itemObj[key] = new Date(value + " EDT");
+	  itemObj[key] = new Date(value + " EST");
 	} else if (key == "id") {
 	  continue;
 	} else {
