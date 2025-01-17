@@ -14,29 +14,29 @@
 <!-- DIALOG NEW ITEM {{{ -->
       <dialog id="item">
 	<form method="dialog">
-	  <h3 id="form-header"></h3>
+	  <h2 id="form-header"></h2>
 	  <p class="form-element-container">
 	    <label for="title">Title:</label>
-	    <input type="text" id="title" name="title" placeholder="Grocery List">
+	    <input type="text" id="title" name="title" placeholder="Grocery List" required>
 	  </p>
 	  <p class="form-element-container">
 	    <label for="date">Due Date:</label>
-	    <input type="date" id="date" name="date">
+	    <input type="date" id="date" name="date" required>
 	  </p>
 	  <p class="form-element-container">
 	    <label for="notes">Notes:</label>
-	    <textarea id="notes" name="notes" rows=3 cols=25 placeholder="Lemons, Avocados, Garlic, Cilantro..."></textarea>
+	    <textarea id="notes" name="notes" placeholder="Lemons, Avocados, Garlic, Cilantro..."></textarea>
 	  </p>
 	  <fieldset>
 	    <legend>Priority Level:</legend>
 	    <ul>
 	      <li>
 		<input type="radio" id="low" name="priority" value="low">
-		<label for="high">Low</label>
+		<label for="low">Low</label>
 	      </li>
 	      <li>
 		<input type="radio" id="medium" name="priority" value="medium" checked>
-		<label for="high">Medium</label>
+		<label for="medium">Medium</label>
 	      </li>
 	      <li>
 		<input type="radio" id="high" name="priority" value="high">
@@ -49,11 +49,11 @@
 	    <input type="checkbox" id="completion" name="completion">
 	  </p>
 	  <p class="form-element-container">
-	    <label for="tags">Tags:</label>
+	    <label for="tags">Projects:</label>
 	    <input type="text" id="tags" name="tags" placeholder="Home, Travel,...">
 	  </p>
 	  <menu>
-	    <button autofocus type="reset" id="cancel">Cancel</button>
+	    <button type="reset" id="cancel">Cancel</button>
 	    <button type="submit" id="submit">Submit</button>
 	  </menu>
 	</form>

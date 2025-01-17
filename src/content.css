@@ -6,9 +6,86 @@ div#content-toolbar {
   overflow: hidden;
 }
 
+dialog * {
+  /* border: 1px solid red; */
+}
+
+dialog {
+  background-color: var(--sidebar-background-color);
+  color: var(--font-color);
+  border: 5px solid var(--section-border-color);
+  left: var(--sidebar-width);
+  height: 53%;
+  width: 35%;
+}
+
+dialog[open]::backdrop {
+  background-color: rgb(0 0 0 / 35%);
+}
+
+form {
+  margin: 2% 5%;
+}
+
+form h2 {
+  font-size: clamp(1.4rem, 2.1vw, 1.9rem);
+  text-align: center;
+}
+form p.form-element-container {
+  display: flex;
+}
+
+form p.form-element-container label {
+  font-size: var(--sidebar-item-font-size);
+  width: 25%;
+  padding-right: 2%;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="checkbox"],
+form textarea {
+  border: 0.08rem solid rgb(0 0 0 / 20%);
+  border-radius: 2px;
+  outline: none;
+  width: 75%;
+}
+
+form textarea {
+  height: 5em;
+}
+
+form legend,
+form li label {
+  font-size: var(--sidebar-item-font-size);
+}
+
+form ul {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+form li {
+  /* display: flex; */
+}
+
+form menu {
+  display: flex;
+  justify-content: space-around;
+}
+
+form input:focus,
+form textarea:focus {
+  background: #c4b5fd;
+  border: 1px solid gold;
+  border-radius: 5px;
+}
+
 div#list-container {
   /* border: 1px solid red; */
-  padding: 0vh 5%;
+  padding: 0 5%;
   /* margin-bottom: 2%; */
   height: 92%;
   overflow-y: auto;

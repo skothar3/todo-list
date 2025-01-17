@@ -1,13 +1,9 @@
-:root {
-  --sidebar-background-color: #7c3aed;
-}
-
 section.sidebar {
   position: relative;
   background-color: var(--sidebar-background-color);
   padding: 2vh 8%;
   padding-left: 12%;
-  font-size: clamp(1.2rem, 1.9vw, 1.4rem);
+  font-size: var(--sidebar-item-font-size);
   border-right: 2px solid var(--section-border-color);
 }
 

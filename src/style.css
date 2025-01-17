@@ -12,9 +12,12 @@
   --page-height: 100vh;
   --background-color: lightgrey;
   --foreground-color: #a78bfa;
+  --sidebar-background-color: #7c3aed;
   --font-color: blanchedalmond;
   --section-border-color: black;
   --icon-hover-color: #d4d4d4;
+  --sidebar-item-font-size: clamp(1.2rem, 1.9vw, 1.4rem);
+  --sidebar-width: clamp(11rem, 25vw, 18rem);
 
   padding: 0;
   background-color: var(--background-color);
@@ -47,7 +50,7 @@ main {
   grid-row: 2 / 3;
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: clamp(11rem, 25vw, 18rem) 1fr;
+  grid-template-columns: var(--sidebar-width) 1fr;
   height: 100%;
   overflow: hidden;
   border-bottom: 2px solid var(--section-border-color);

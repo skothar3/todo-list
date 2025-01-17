@@ -27,11 +27,11 @@ function displayController() {
   // PRIVATE METHODS {{{
   const showItemDialog = (listItem) => {
     const itemDialog = document.querySelector("dialog#item");
-    const formHeader = document.querySelector("h3#form-header");
+    const formHeader = document.querySelector("h2#form-header");
+    const itemForm = document.querySelector("form");
+    const formElements = itemForm.elements;
     if (listItem) {
-      formHeader.textContent = "EDIT ITEM";
-      const itemForm = document.querySelector("form");
-      const formElements = itemForm.elements;
+      formHeader.textContent = "Edit Item";
       itemForm.dataset.id = listItem.getID();
       formElements["title"].value = listItem.title;
       formElements["date"].value = format(listItem.date, "yyyy-MM-dd");
@@ -40,21 +40,17 @@ function displayController() {
       formElements["completion"].checked = listItem.getCompletion();
       formElements["tags"].value = listItem.tags.join(", ");
     } else {
-      formHeader.textContent = "NEW ITEM";
+      formHeader.textContent = "New Item";
+      formElements["date"].value = format(Date.now(), "yyyy-MM-dd");
     }
     itemDialog.showModal();
   }
 
   const closeItemDialog = () => {
     const itemDialog = document.querySelector("dialog#item");
-    const itemForm = itemDialog.querySelector("form");
-    const itemFormData = new FormData(itemForm);
-    if (itemForm.dataset.id) {
-      itemFormData.append("id", itemForm.dataset.id);
-    }
+    const itemForm = document.querySelector("form");
     itemDialog.close();
     itemForm.reset();
-    return itemFormData;
   }
 
   const initSortSelect = () => {
@@ -188,6 +184,13 @@ function displayController() {
     return sidebarSection.querySelector("button#new-item");
   }
 
+  const getForm = () => {
+    const itemDialog = document.querySelector("dialog#item");
+    const itemForm = itemDialog.querySelector("form");
+    const itemFormData = new FormData(itemForm);
+
+    return itemForm;
+  }
   const getSubmitBtn = () => {
     return contentSection.querySelector("button#submit");
   }
@@ -214,6 +217,7 @@ function displayController() {
     getSidebarNodes,
     getSortSelectNode,
     getNewItemNode,
+    getForm,
     getSubmitBtn,
     getCancelBtn,
     showItemDialog,
@@ -545,8 +549,14 @@ function mainController() {
 	displayControl.updateList(
 	  listControl.removeListItem(node.dataset.id)
 	);
+	displayControl.updateSidebar(
+	  listControl.getTags()
+	);
 	const listNodes = displayControl.getListNodes();
+	const sidebarNodes = displayControl.getSidebarNodes();
+	const newItemNode = displayControl.getNewItemNode();
 	addListItemListeners(listNodes);
+	addSidebarListeners(sidebarNodes, newItemNode);
       })
     });
   }
@@ -576,8 +586,17 @@ function mainController() {
     });
 
     submitBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const itemFormData = displayControl.closeItemDialog();
+      const itemForm = displayControl.getForm();
+      const itemFormData = new FormData(itemForm);
+      if (itemForm.dataset.id) {
+	itemFormData.append("id", itemForm.dataset.id);
+      }
+      if (!itemForm.elements["title"].validity.valid) {
+	return;
+      } else {
+	e.preventDefault();
+	displayControl.closeItemDialog();
+      }
       const itemObj = {};
       let itemID;
       if (itemFormData.has("completion")) {
