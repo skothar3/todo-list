@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List App</title>
+<script defer src="main.js"></script></head>
+<body>
+  <header>
+    <h1>Do-Today</h1>
+  </header>
+  <main>
+    <section class="sidebar"></section>
+    <section class="content">
+<!-- DIALOG NEW ITEM {{{ -->
+      <dialog id="item">
+	<form method="dialog">
+	  <h2 id="form-header"></h2>
+	  <p class="form-element-container">
+	    <label for="title">Title:</label>
+	    <input type="text" id="title" name="title" placeholder="Grocery List" required>
+	  </p>
+	  <p class="form-element-container">
+	    <label for="date">Due Date:</label>
+	    <input type="date" id="date" name="date" required>
+	  </p>
+	  <p class="form-element-container">
+	    <label for="notes">Notes:</label>
+	    <textarea id="notes" name="notes" placeholder="Lemons, Avocados, Garlic, Cilantro..."></textarea>
+	  </p>
+	  <fieldset>
+	    <legend>Priority Level:</legend>
+	    <ul>
+	      <li>
+		<input type="radio" id="low" name="priority" value="low">
+		<label for="low">Low</label>
+	      </li>
+	      <li>
+		<input type="radio" id="medium" name="priority" value="medium" checked>
+		<label for="medium">Medium</label>
+	      </li>
+	      <li>
+		<input type="radio" id="high" name="priority" value="high">
+		<label for="high">High</label>
+	      </li>
+	    </ul>
+	  </fieldset>
+	  <p class="form-element-container">
+	    <label for="completion">Completed:</label>
+	    <input type="checkbox" id="completion" name="completion">
+	  </p>
+	  <p class="form-element-container">
+	    <label for="tags">Projects:</label>
+	    <input type="text" id="tags" name="tags" placeholder="Home, Travel,...">
+	  </p>
+	  <menu>
+	    <button type="reset" id="cancel">Cancel</button>
+	    <button type="submit" id="submit">Submit</button>
+	  </menu>
+	</form>
+      </dialog>
+<!-- }}} -->
+      <div id="content-toolbar"></div>
+      <div id="list-container"></div>
+    </section>
+  </main>
+  <footer></footer>
+</body>
+</html>
